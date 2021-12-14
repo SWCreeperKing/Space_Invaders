@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Raylib_cs;
@@ -39,7 +40,7 @@ namespace SpaceInvaders
             foreach (var proj in projectiles)
             {
                 proj.Update();
-                if (proj.Position.Y <= -20)
+                if (proj.rect.y <= -20)
                 {
                     remove.Add(proj);
                     continue;
@@ -52,7 +53,7 @@ namespace SpaceInvaders
             }
 
             foreach (var r in remove) projectiles.Remove(r);
-            
+
             if (!invaders.Any()) Spawn();
         }
 

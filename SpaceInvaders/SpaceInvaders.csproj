@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="RayWrapper" Version="0.1.14" />
+      <PackageReference Include="RayWrapper" Version="0.1.18" />
     </ItemGroup>
 
 </Project>
