@@ -1,7 +1,8 @@
 ﻿using System.Numerics;
-using Raylib_cs;
+using Raylib_CsLo;
 using RayWrapper;
 using RayWrapper.Vars;
+using static Raylib_CsLo.Raylib;
 
 namespace SpaceInvaders
 {
@@ -26,7 +27,7 @@ namespace SpaceInvaders
             _lastUpdate = GameBox.GetTimeMs();
         }
 
-        protected override void RenderCall() => rect.Draw(Color.RED);
+        protected override void RenderCall() => rect.Draw(RED);
 
         public int CheckTurn() =>
             rect.x switch

@@ -1,7 +1,8 @@
 ﻿using System.Numerics;
-using Raylib_cs;
+using Raylib_CsLo;
 using RayWrapper;
 using RayWrapper.Vars;
+using static Raylib_CsLo.Raylib;
 
 namespace SpaceInvaders
 {
@@ -22,18 +23,18 @@ namespace SpaceInvaders
         {
             var realSpeed = speed * (GameBox.GetTimeMs() - _lastUpdate);
 
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_A)) rect.x -= realSpeed;
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_D)) rect.x += realSpeed;
+            if (IsKeyDown(KeyboardKey.KEY_A)) rect.x -= realSpeed;
+            if (IsKeyDown(KeyboardKey.KEY_D)) rect.x += realSpeed;
 
             if (rect.x < 0) rect.MoveTo(new Vector2(0, 600));
             if (rect.x > 1230) rect.MoveTo(new Vector2(1230, 600));
 
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+            if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 Program.projectiles.Add(new Projectile(new Vector2(rect.x + 20, rect.y)));
 
             _lastUpdate = GameBox.GetTimeMs();
         }
 
-        protected override void RenderCall() => rect.Draw(Color.BLUE);
+        protected override void RenderCall() => rect.Draw(BLUE);
     }
 }
