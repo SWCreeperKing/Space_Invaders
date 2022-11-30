@@ -1,42 +1,37 @@
 ﻿using System.Numerics;
-using Raylib_CsLo;
-using RayWrapper;
-using RayWrapper.Vars;
+using RayWrapper.Base.GameObject;
 using static Raylib_CsLo.Raylib;
+using Rectangle = RayWrapper.Base.Primitives.Rectangle;
 
-namespace SpaceInvaders
+namespace SpaceInvaders;
+
+public class Invader : GameObject
 {
-    public class Invader : GhostObject
+    public float speed = 150f;
+    public Rectangle rect;
+    public bool turn;
+
+    public Invader(Vector2 pos)
     {
-        public float speed = .15f;
-        public Rectangle rect;
-        public bool turn;
+        rect = new Rectangle(pos, new Vector2(75, 20));
+    }
 
-        private long _lastUpdate;
+    protected override void UpdateCall(float dt) => rect.X += speed * dt * (turn ? -1 : 1);
+    protected override void RenderCall() => rect.Draw(RED);
 
-        public Invader(Vector2 pos)
+    public int CheckTurn()
+    {
+        return rect.X switch
         {
-            rect = RectWrapper.AssembleRectFromVec(pos, new Vector2(75, 20));
-            _lastUpdate = GameBox.GetTimeMs();
-        }
+            <= 0 => 1,
+            >= 1205 => -1,
+            _ => 0
+        };
+    }
 
-        protected override void UpdateCall()
-        {
-            var realSpeed = speed * (GameBox.GetTimeMs() - _lastUpdate) * (turn ? -1 : 1);
-            rect.x += realSpeed;
-            _lastUpdate = GameBox.GetTimeMs();
-        }
-
-        protected override void RenderCall() => rect.Draw(RED);
-
-        public int CheckTurn() =>
-            rect.x switch
-            {
-                <= 0 => 1,
-                >= 1205 => -1,
-                _ => 0
-            };
-
-        public void Turn(bool toTurn) => rect.MoveBy(speed * ((turn = toTurn) ? 1 : 1), 15);
+    public void Turn(bool toTurn, float dt)
+    {
+        turn = toTurn;
+        rect.Pos += new Vector2(speed * dt * (turn ? -1 : 1), 15);
     }
 }

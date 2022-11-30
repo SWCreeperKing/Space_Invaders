@@ -1,31 +1,16 @@
 ﻿using System.Numerics;
-using Raylib_CsLo;
-using RayWrapper;
-using RayWrapper.Vars;
+using RayWrapper.Base.GameObject;
 using static Raylib_CsLo.Raylib;
+using Rectangle = RayWrapper.Base.Primitives.Rectangle;
 
-namespace SpaceInvaders
+namespace SpaceInvaders;
+
+public class Projectile : GameObject
 {
-    public class Projectile : GhostObject
-    {
-        public int speed = 1;
-        public Rectangle rect;
+    public int speed = 400;
+    public Rectangle rect;
 
-        private long _lastUpdate;
-
-        public Projectile(Vector2 pos)
-        {
-            rect = RectWrapper.AssembleRectFromVec(pos, new Vector2(10, 20));
-            _lastUpdate = GameBox.GetTimeMs();
-        }
-
-        protected override void UpdateCall()
-        {
-            var realSpeed = speed * (GameBox.GetTimeMs() - _lastUpdate);
-            rect.y -= realSpeed;
-            _lastUpdate = GameBox.GetTimeMs();
-        }
-
-        protected override void RenderCall() => rect.Draw(GOLD);
-    }
+    public Projectile(Vector2 pos) => rect = new Rectangle(pos, new Vector2(10, 20));
+    protected override void UpdateCall(float dt) => rect.Y -= speed * dt;
+    protected override void RenderCall() => rect.Draw(GOLD);
 }
